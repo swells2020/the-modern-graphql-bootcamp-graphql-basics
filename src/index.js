@@ -1,7 +1,38 @@
-import message from "./myModule";
-import { name } from "./myModule";
-import sum from "./math";
-import { square, cube } from "./math";
+import { GraphQLServer } from "graphql-yoga";
 
-console.log(message, name);
-console.log(sum(1, 2), square(3), cube(4));
+//Type definitions (schema)
+const typeDefs = `
+    type Query {
+        hello: String! 
+        name: String!
+        location: String!
+        bio: String!
+    }
+`;
+
+//Resolvers
+const resolvers = {
+  Query: {
+    hello() {
+      return "This is my first query!";
+    },
+    name() {
+      return "Callum";
+    },
+    location() {
+      return "Buxton, GB";
+    },
+    bio() {
+      return "I'm learning how to create a GraphQL API!";
+    },
+  },
+};
+
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers,
+});
+
+server.start(() => {
+  console.log("The server is up.");
+});
